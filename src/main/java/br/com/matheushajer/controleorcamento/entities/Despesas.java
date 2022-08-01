@@ -1,6 +1,7 @@
 package br.com.matheushajer.controleorcamento.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ public class Despesas implements Serializable{
 
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
-	private Double valor;
+	private BigDecimal valor;
 
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant data;
@@ -30,7 +31,7 @@ public class Despesas implements Serializable{
 	public Despesas() {
 	}
 
-	public Despesas(Long id, String descricao, Double valor, Instant data) {
+	public Despesas(Long id, String descricao, BigDecimal valor, Instant data) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
@@ -53,11 +54,11 @@ public class Despesas implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public Double getValor() {
+	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(Double valor) {
+	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
 
