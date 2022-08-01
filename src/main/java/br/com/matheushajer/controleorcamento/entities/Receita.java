@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_receita")
-public class Receitas implements Serializable{
+public class Receita implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,10 +28,10 @@ public class Receitas implements Serializable{
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant data;
 
-	public Receitas() {
+	public Receita() {
 	}
 
-	public Receitas(Long id, String descricao, BigDecimal valor, Instant data) {
+	public Receita(Long id, String descricao, BigDecimal valor, Instant data) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
