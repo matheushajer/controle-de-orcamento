@@ -30,4 +30,17 @@ public class ReceitaService {
 		return new ReceitaDTO(optional.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado")));
 	}
 
+	public ReceitaDTO insert(ReceitaDTO dto) {
+		Receita entity = new Receita();
+		copyDtoToEntity(dto,entity);
+		return new ReceitaDTO(repository.save(entity));
+	}
+
+	private void copyDtoToEntity(ReceitaDTO dto, Receita entity) {
+		entity.setData(dto.getData());
+		entity.setDescricao(dto.getDescricao());
+		entity.setValor(dto.getValor());		
+	}
+
+	
 }
