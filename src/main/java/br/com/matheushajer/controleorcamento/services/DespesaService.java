@@ -47,10 +47,9 @@ public class DespesaService {
 		} catch (ConstraintViolationException e) {
 			throw new ValidationException("Todos os valores devem ser preenchidos");
 		}catch (ConverterNotFoundException e) {
-			throw new ValidationException("Registro duplicado");
+			throw new UnicException("Despesa: " +dto.getDescricao() +" já cadastradada no mês de " +dto.getData().getMonth());
 		}
 	}
-
 
 	@Transactional
 	public DespesaDTO updade(Long id, DespesaDTO dto) {
@@ -84,6 +83,5 @@ public class DespesaService {
 		}if(lista.contains(dto)) {
 			throw new ValidationException("Registro duplicado");
 		}
-
 	}
 }
