@@ -2,9 +2,11 @@ package br.com.matheushajer.controleorcamento.services;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class ReceitaService {
 		return new ReceitaDTO(optional.orElseThrow(() -> new ResourceNotFoundException("ID não encontrado")));
 	}
 
+	@Transactional
 	public ReceitaDTO insert(ReceitaDTO dto) {
 		try {
 		Receita entity = new Receita();
@@ -43,12 +46,34 @@ public class ReceitaService {
 		}
 		
 	}
+	
+	@Transactional
+	public ReceitaDTO updade(Long id, ReceitaDTO dto) {
+		try {
+			Receita entity = repository.getReferenceById(id);
+			copyDtoToEntity(dto, entity);
+			return new ReceitaDTO(repository.save(entity));
+		}catch(EntityNotFoundException e){
+			throw new ResourceNotFoundException("ID não encontrado: " +id);
+		}
+	}
 
 	private void copyDtoToEntity(ReceitaDTO dto, Receita entity) {
 		entity.setData(dto.getData());
 		entity.setDescricao(dto.getDescricao());
 		entity.setValor(dto.getValor());		
 	}
+
+	public void delete(Long id) {
+		try {
+			repository.deleteById(id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("ID não encontrado: " +id);
+		}
+		
+	}
+
+	
 
 	
 }
