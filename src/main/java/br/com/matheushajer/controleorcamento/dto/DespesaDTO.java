@@ -1,41 +1,35 @@
-package br.com.matheushajer.controleorcamento.entities;
+package br.com.matheushajer.controleorcamento.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import br.com.matheushajer.controleorcamento.entities.Despesa;
 
-@Entity
-@Table(name = "tb_despesa")
-public class Despesa implements Serializable{
+public class DespesaDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	private BigDecimal valor;
-
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private LocalDate data;
 
-	public Despesa() {
+	public DespesaDTO() {
 	}
 
-	public Despesa(Long id, String descricao, BigDecimal valor, LocalDate data) {
+	public DespesaDTO(Long id, String descricao, BigDecimal valor, LocalDate data) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
 		this.data = data;
+	}
+	
+	public DespesaDTO(Despesa entity) {
+		this.id = entity.getId();
+		this.descricao = entity.getDescricao();
+		this.valor = entity.getValor();
+		this.data = entity.getData();
 	}
 
 	public Long getId() {
@@ -70,5 +64,4 @@ public class Despesa implements Serializable{
 		this.data = data;
 	}
 
-	
 }
