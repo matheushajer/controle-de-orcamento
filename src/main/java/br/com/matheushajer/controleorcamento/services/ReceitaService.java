@@ -16,7 +16,7 @@ import br.com.matheushajer.controleorcamento.dto.ReceitaDTO;
 import br.com.matheushajer.controleorcamento.entities.Receita;
 import br.com.matheushajer.controleorcamento.repositories.ReceitaRepository;
 import br.com.matheushajer.controleorcamento.services.execeptions.ResourceNotFoundException;
-import br.com.matheushajer.controleorcamento.services.execeptions.validationException;
+import br.com.matheushajer.controleorcamento.services.execeptions.ValidationException;
 
 @Service
 public class ReceitaService {
@@ -42,7 +42,7 @@ public class ReceitaService {
 		copyDtoToEntity(dto,entity);
 		return new ReceitaDTO(repository.save(entity));
 		}catch (ConstraintViolationException e) {
-			throw new validationException("Todos os valores devem ser preenchidos");
+			throw new ValidationException("Todos os valores devem ser preenchidos");
 		}
 		
 	}

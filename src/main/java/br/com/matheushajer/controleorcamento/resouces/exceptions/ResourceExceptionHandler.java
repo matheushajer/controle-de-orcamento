@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.com.matheushajer.controleorcamento.services.execeptions.ResourceNotFoundException;
-import br.com.matheushajer.controleorcamento.services.execeptions.validationException;
+import br.com.matheushajer.controleorcamento.services.execeptions.UnicException;
+import br.com.matheushajer.controleorcamento.services.execeptions.ValidationException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -28,8 +29,8 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 	
-	@ExceptionHandler(validationException.class)
-	public ResponseEntity<StandardError> entityNotFound(validationException exception, HttpServletRequest request){
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<StandardError> entityNotFound(ValidationException exception, HttpServletRequest request){
 		StandardError err = new StandardError();
 		
 		err.setTimestamp(Instant.now());
@@ -39,6 +40,19 @@ public class ResourceExceptionHandler {
 		err.setPath(request.getRequestURI());
 		
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
+	}
+	
+	@ExceptionHandler(UnicException.class)
+	public ResponseEntity<StandardError> entityNotFound(UnicException exception, HttpServletRequest request){
+		StandardError err = new StandardError();
+		
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Recurso duplicado");
+		err.setMessage(exception.getMessage());
+		err.setPath(request.getRequestURI());
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
 }
