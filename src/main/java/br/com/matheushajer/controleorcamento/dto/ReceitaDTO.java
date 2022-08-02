@@ -2,7 +2,7 @@ package br.com.matheushajer.controleorcamento.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import br.com.matheushajer.controleorcamento.entities.Receita;
 
@@ -13,12 +13,12 @@ public class ReceitaDTO implements Serializable{
 	private Long id;
 	private String descricao;
 	private BigDecimal valor;
-	private Instant data;
+	private LocalDate data;
 
 	public ReceitaDTO() {
 	}
 
-	public ReceitaDTO(Long id, String descricao, BigDecimal valor, Instant data) {
+	public ReceitaDTO(Long id, String descricao, BigDecimal valor, LocalDate data) {
 		this.id = id;
 		this.descricao = descricao;
 		this.valor = valor;
@@ -56,11 +56,11 @@ public class ReceitaDTO implements Serializable{
 		this.valor = valor;
 	}
 
-	public Instant getData() {
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(Instant data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 
