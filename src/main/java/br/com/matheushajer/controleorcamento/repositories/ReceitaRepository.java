@@ -12,6 +12,6 @@ import br.com.matheushajer.controleorcamento.entities.Receita;
 @Repository
 public interface ReceitaRepository extends JpaRepository<Receita, Long>{
 
-	@Query(value = "select distinct from tb_receita where descricao = ?1 and (MONTH(data)) = ?2", nativeQuery = true)
-	public Collection<ReceitaDTO> findByDescricaoAndData(String descricao, Integer mes);
+	@Query(value = "select distinct from tb_receita where descricao = ?1 and MONTH(data) = ?2 and YEAR(data) = ?3", nativeQuery = true)
+	public Collection<ReceitaDTO> findByDescricaoAndData(String descricao, Integer mes, Integer ano);
 }

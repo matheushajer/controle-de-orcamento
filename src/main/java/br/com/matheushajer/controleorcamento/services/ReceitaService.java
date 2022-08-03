@@ -75,7 +75,7 @@ public class ReceitaService {
 
 	private void copyDtoToEntity(ReceitaDTO dto, Receita 	entity) {
 		
-		Collection<ReceitaDTO> lista = repository.findByDescricaoAndData(dto.getDescricao(), dto.getData().getMonthValue());
+		Collection<ReceitaDTO> lista = repository.findByDescricaoAndData(dto.getDescricao(), dto.getData().getMonthValue(),dto.getData().getYear());
 		
 		if (lista.isEmpty()) {
 			entity.setData(dto.getData());

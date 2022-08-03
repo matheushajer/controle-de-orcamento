@@ -12,6 +12,6 @@ import br.com.matheushajer.controleorcamento.entities.Despesa;
 @Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 	
-	@Query(value = "select distinct from tb_despesa where descricao = ?1 and (MONTH(data)) = ?2", nativeQuery = true)
-	public Collection<DespesaDTO> findByDescricaoAndData(String descricao, Integer mes);
+	@Query(value = "select distinct from tb_despesa where descricao = ?1 and MONTH(data) = ?2 and YEAR(data) = ?3", nativeQuery = true)
+	public Collection<DespesaDTO> findByDescricaoAndData(String descricao, Integer mes, Integer ano);
 }

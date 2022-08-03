@@ -74,7 +74,7 @@ public class DespesaService {
 
 	private void copyDtoToEntity(DespesaDTO dto, Despesa entity) {
 		
-		Collection<DespesaDTO> lista = repository.findByDescricaoAndData(dto.getDescricao(), dto.getData().getMonthValue());
+		Collection<DespesaDTO> lista = repository.findByDescricaoAndData(dto.getDescricao(), dto.getData().getMonthValue(), dto.getData().getYear());
 		
 		if (lista.isEmpty()) {
 			entity.setData(dto.getData());
