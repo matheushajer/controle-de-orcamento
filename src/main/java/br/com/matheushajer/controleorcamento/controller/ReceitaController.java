@@ -24,6 +24,7 @@ import br.com.matheushajer.controleorcamento.entities.Receita;
 import br.com.matheushajer.controleorcamento.form.ReceitaAtualizarForm;
 import br.com.matheushajer.controleorcamento.form.ReceitaForm;
 import br.com.matheushajer.controleorcamento.repository.ReceitaRepository;
+import br.com.matheushajer.controleorcamento.service.ReceitaService;
 
 @RestController
 @RequestMapping("/receitas")
@@ -32,10 +33,12 @@ public class ReceitaController {
 	@Autowired
 	private ReceitaRepository repository;
 
+	@Autowired
+	private ReceitaService service;
+
 	@GetMapping
-	public List<ReceitaDTO> findAll() {
-		List<Receita> lista = repository.findAll();
-		return ReceitaDTO.converter(lista);
+	public List<ReceitaDTO> findAll(String descricao){ 
+		return service.findAll(descricao);
 	}
 
 	@GetMapping("/{id}")
