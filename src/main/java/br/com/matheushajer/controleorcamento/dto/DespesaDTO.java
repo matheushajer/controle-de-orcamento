@@ -1,67 +1,51 @@
 package br.com.matheushajer.controleorcamento.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import br.com.matheushajer.controleorcamento.entities.Categoria;
 import br.com.matheushajer.controleorcamento.entities.Despesa;
 
-public class DespesaDTO implements Serializable{
+public class DespesaDTO {
 
-	private static final long serialVersionUID = 1L;
-	
 	private Long id;
 	private String descricao;
 	private BigDecimal valor;
 	private LocalDate data;
+	private Categoria categoria;
 
-	public DespesaDTO() {
-	}
-
-	public DespesaDTO(Long id, String descricao, BigDecimal valor, LocalDate data) {
-		this.id = id;
-		this.descricao = descricao;
-		this.valor = valor;
-		this.data = data;
-	}
-	
-	public DespesaDTO(Despesa entity) {
-		this.id = entity.getId();
-		this.descricao = entity.getDescricao();
-		this.valor = entity.getValor();
-		this.data = entity.getData();
+	public DespesaDTO(Despesa despesa) {
+		this.id = despesa.getId();
+		this.descricao = despesa.getDescricao();
+		this.valor = despesa.getValor();
+		this.data = despesa.getData();
+		this.categoria = despesa.getCategoria();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getDescricao() {
 		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
 	}
 
 	public BigDecimal getValor() {
 		return valor;
 	}
 
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
 	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
+	public static List<DespesaDTO> converter(List<Despesa> despesas) {
+		return despesas.stream().map(DespesaDTO::new).collect(Collectors.toList());
+	}
+	
 }

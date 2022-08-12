@@ -1,41 +1,43 @@
 package br.com.matheushajer.controleorcamento.entities;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_despesa")
-public class Despesa implements Serializable{
+public class Despesa {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(columnDefinition = "TEXT")
+	private Long id;	
 	private String descricao;
 	private BigDecimal valor;
-
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private LocalDate data;
+
+	@Enumerated(EnumType.STRING)
+	private Categoria categoria = Categoria.OUTRAS;
 
 	public Despesa() {
 	}
 
-	public Despesa(Long id, String descricao, BigDecimal valor, LocalDate data) {
-		this.id = id;
+	public Despesa(String descricao, BigDecimal valor, LocalDate data) {
 		this.descricao = descricao;
 		this.valor = valor;
 		this.data = data;
+	}
+	
+	public Despesa(String descricao, BigDecimal valor, LocalDate data, Categoria categoria) {
+		this.descricao = descricao;
+		this.valor = valor;
+		this.data = data;
+		this.categoria  = categoria;
 	}
 
 	public Long getId() {
@@ -70,5 +72,29 @@ public class Despesa implements Serializable{
 		this.data = data;
 	}
 
-	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Despesa other = (Despesa) obj;
+		return Objects.equals(id, other.id);
+	}
+
 }
