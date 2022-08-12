@@ -37,8 +37,12 @@ public class ReceitaController {
 	private ReceitaService service;
 
 	@GetMapping
-	public List<ReceitaDTO> findAll(String descricao){ 
-		return service.findAll(descricao);
+	public ResponseEntity<List<ReceitaDTO>> findAll(String descricao){ 
+		if(service.findAll(descricao).isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(service.findAll(descricao));
+		}
 	}
 
 	@GetMapping("/{id}")

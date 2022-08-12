@@ -24,6 +24,7 @@ import br.com.matheushajer.controleorcamento.entities.Despesa;
 import br.com.matheushajer.controleorcamento.form.DespesaAtualizarForm;
 import br.com.matheushajer.controleorcamento.form.DespesaForm;
 import br.com.matheushajer.controleorcamento.repository.DespesaRepository;
+import br.com.matheushajer.controleorcamento.service.DespesaService;
 
 @RestController
 @RequestMapping("/despesas")
@@ -32,10 +33,16 @@ public class DespesaController {
 	@Autowired
 	private DespesaRepository repository;
 
+	@Autowired
+	private DespesaService service;
+
 	@GetMapping
-	public List<DespesaDTO> findAll() {
-		List<Despesa> lista = repository.findAll();
-		return DespesaDTO.converter(lista);
+	public ResponseEntity<List<DespesaDTO>> findAll(String descricao){ 
+		if(service.findAll(descricao).isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}else {
+			return ResponseEntity.ok(service.findAll(descricao));
+		}
 	}
 
 	@GetMapping("/{id}")
@@ -60,29 +67,28 @@ public class DespesaController {
 		URI uri = builder.path("/despesas/{id}").buildAndExpand(despesa.getId()).toUri();
 		return ResponseEntity.created(uri).body(new DespesaDTO(despesa));
 	}
-	
+
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<DespesaDTO> update (@PathVariable Long id, @RequestBody @Valid DespesaAtualizarForm form){
+	public ResponseEntity<DespesaDTO> update(@PathVariable Long id, @RequestBody @Valid DespesaAtualizarForm form) {
 		Optional<Despesa> optional = repository.findById(id);
-		
-		if(optional.isPresent()) {
-			Despesa despesa = form.atualizar(id,repository);
+
+		if (optional.isPresent()) {
+			Despesa despesa = form.atualizar(id, repository);
 			return ResponseEntity.ok(new DespesaDTO(despesa));
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> deletar (@PathVariable Long id){
+	public ResponseEntity<?> deletar(@PathVariable Long id) {
 		Optional<Despesa> optional = repository.findById(id);
-		if(optional.isPresent()) {
+		if (optional.isPresent()) {
 			repository.deleteById(id);
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
-	
+
 }
