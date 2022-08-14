@@ -53,6 +53,15 @@ public class DespesaController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/{ano}/{mes}")
+	public ResponseEntity<List<DespesaDTO>> findByMes(@PathVariable Integer ano, @PathVariable Integer mes) {
+		List<Despesa> despesa = service.findByData(ano, mes);
+		if (despesa.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(DespesaDTO.converter(despesa));
+	}
 
 	@PostMapping
 	@Transactional

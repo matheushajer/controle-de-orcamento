@@ -1,5 +1,6 @@
 package br.com.matheushajer.controleorcamento.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,5 +16,7 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 	
 	@Query(value = "select *from despesa where UPPER(descricao) = UPPER(?1)", nativeQuery = true)
 	public List<Despesa> findByDescricao(String descricao);
+	
+	public List<Despesa> findByDataBetween(LocalDate dataInicial, LocalDate dataFinal);
 	
 }
