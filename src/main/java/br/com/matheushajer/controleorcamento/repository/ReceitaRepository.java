@@ -1,5 +1,6 @@
 package br.com.matheushajer.controleorcamento.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,5 +16,7 @@ public interface ReceitaRepository extends JpaRepository<Receita, Long>{
 	
 	@Query(value = "select *from receita where UPPER(descricao) = UPPER(?1)", nativeQuery = true)
 	public List<Receita> findByDescricao(String descricao);
+	
+	public List<Receita> findByDataBetween(LocalDate dataInicial, LocalDate dataFinal);
 	
 }

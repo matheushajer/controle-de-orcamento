@@ -1,5 +1,7 @@
 package br.com.matheushajer.controleorcamento.service;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,6 +28,16 @@ public class ReceitaService {
 			List<Receita> lista = repository.findByDescricao(descricao);
 			return ReceitaDTO.converter(lista);
 		}
+	}
+	
+	@Transactional
+	public List<Receita> findByData(Integer ano, Integer mes) {
+
+		LocalDate dataInicial = LocalDate.of(ano, mes, 1);
+		LocalDate dataFinal = dataInicial.with(TemporalAdjusters.lastDayOfMonth());
+
+		List<Receita> receitas = repository.findByDataBetween(dataInicial, dataFinal);
+		return receitas;
 	}
 
 }

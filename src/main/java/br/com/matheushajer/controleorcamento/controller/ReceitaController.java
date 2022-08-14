@@ -53,6 +53,15 @@ public class ReceitaController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/{ano}/{mes}")
+	public ResponseEntity<List<ReceitaDTO>> findByMes(@PathVariable Integer ano, @PathVariable Integer mes) {
+		List<Receita> receita = service.findByData(ano, mes);
+		if (receita.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(ReceitaDTO.converter(receita));
+	}
 
 	@PostMapping
 	@Transactional
