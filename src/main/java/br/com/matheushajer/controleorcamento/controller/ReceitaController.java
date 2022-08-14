@@ -47,9 +47,9 @@ public class ReceitaController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReceitaDTO> findById(@PathVariable Long id) {
-		Optional<Receita> Receita = repository.findById(id);
-		if (Receita.isPresent()) {
-			return ResponseEntity.ok(new ReceitaDTO(Receita.get()));
+		Optional<Receita> receita = repository.findById(id);
+		if (receita.isPresent()) {
+			return ResponseEntity.ok(new ReceitaDTO(receita.get()));
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -66,15 +66,15 @@ public class ReceitaController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<ReceitaDTO> insert(@RequestBody @Valid ReceitaForm form, UriComponentsBuilder builder) {
-		Receita Receita = form.converte(repository);
+		Receita receita = form.converte(repository);
 
-		if (Receita == null) {
+		if (receita == null) {
 			return ResponseEntity.unprocessableEntity().build();
 		}
 
-		repository.save(Receita);
-		URI uri = builder.path("/Receitas/{id}").buildAndExpand(Receita.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ReceitaDTO(Receita));
+		repository.save(receita);
+		URI uri = builder.path("/Receitas/{id}").buildAndExpand(receita.getId()).toUri();
+		return ResponseEntity.created(uri).body(new ReceitaDTO(receita));
 	}
 
 	@PutMapping("/{id}")
@@ -83,8 +83,8 @@ public class ReceitaController {
 		Optional<Receita> optional = repository.findById(id);
 
 		if (optional.isPresent()) {
-			Receita Receita = form.atualizar(id, repository);
-			return ResponseEntity.ok(new ReceitaDTO(Receita));
+			Receita receita = form.atualizar(id, repository);
+			return ResponseEntity.ok(new ReceitaDTO(receita));
 		}
 		return ResponseEntity.notFound().build();
 	}
