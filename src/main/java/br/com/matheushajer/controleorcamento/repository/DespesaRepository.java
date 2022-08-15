@@ -1,6 +1,8 @@
 package br.com.matheushajer.controleorcamento.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,5 +20,12 @@ public interface DespesaRepository extends JpaRepository<Despesa, Long>{
 	public List<Despesa> findByDescricao(String descricao);
 	
 	public List<Despesa> findByDataBetween(LocalDate dataInicial, LocalDate dataFinal);
+	
+	@Query(value = "select SUM(valor) FROM despesa WHERE data >= ?1 AND data <= ?2", nativeQuery = true)
+	public Optional<BigDecimal> sumBetweenData(LocalDate dataInicial, LocalDate dataFinal);
+
+	
+	@Query(value = "select categoria, SUM(valor) from despesa WHERE data >= ?1 AND data <= ?2 GROUP BY categoria", nativeQuery = true)
+	public Collection<?> findTotalPorCategoria(LocalDate dataInicial, LocalDate dataFinal);
 	
 }
